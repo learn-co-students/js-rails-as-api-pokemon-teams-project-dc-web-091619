@@ -56,6 +56,17 @@ function renderPokemon(pokemon, parent) {
         pmNickName.appendChild(releaseButton)
         releaseButton.innerText = "Release"
         releaseButton.classList.add('release')
+        releaseButton.addEventListener("click", destroyPokemon)
+}
+
+function destroyPokemon(event){
+    fetch(`${BASE_URL}/pokemons/${event.currentTarget.parentElement.dataset.pokemonId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+    event.currentTarget.remove()
 }
 
 function addPokemon(event){
@@ -70,8 +81,10 @@ function addPokemon(event){
     })
     .then(response => response.json())
     .then(newPokemon => {
-        parent = document.querySelector('ul')
-        renderPokemon(newPokemon, parent)
+        let myEvent = event.target.parentElement
+        
+        parent = document.querySelector('')
+        renderPokemon(newPokemon, myEvent)
     })
 
 
