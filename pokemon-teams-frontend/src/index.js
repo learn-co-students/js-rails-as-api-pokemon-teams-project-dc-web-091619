@@ -9,10 +9,11 @@ document.addEventListener("DOMContentLoaded", () => {
 function fetchTrainers(){
   fetch(TRAINERS_URL)
     .then( response => response.json() )
-    .then( trainerArray => trainerArray.forEach(trainer => renderTrainer(trainer)) )
+    .then( trainerArray => trainerArray.forEach(trainer => renderTrainerCard(trainer)) )
 }
 
-function renderTrainer(trainer){
+function renderTrainerCard(trainer){
+  let trainerPokemonArray = trainer.pokemons
   let main = getMain()
   
   let trainerCard = document.createElement('div')
@@ -29,9 +30,8 @@ function renderTrainer(trainer){
 
   let pokemonUL = document.createElement('ul')
   pokemonUL.id = `trainer-${trainer.id}`
-
-  trainer.pokemons.forEach( pokemon => listPokemon(pokemon, pokemonUL) )
-
+  
+  trainerPokemonArray.forEach( pokemon => listPokemon(pokemon, pokemonUL) )
 
   trainerCard.append(trainerName, addPokemonBtn, pokemonUL)
   main.append(trainerCard)
@@ -53,16 +53,16 @@ function listPokemon(pokemon, ul){
 }
 
 function addPokemon(){
+  let trainerName = event.target.previousSibling.innerText
   let trainerId = event.target.getAttribute('data-trainer-id')
   let pokemonUL = document.querySelector(`#trainer-${trainerId}`)
   let currentTeamSize = pokemonUL.childElementCount
-
+  
   if (currentTeamSize < 6){
     createNewPokemon(trainerId)
-  }else{
-    alert("You have a team of 6")
+  } else {
+    alert(`${trainerName}'s team is already full.`)
   }
-
 }
 
 function createNewPokemon(trainerId){
