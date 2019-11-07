@@ -66,26 +66,28 @@ function destroyPokemon(event){
             'Content-Type': 'application/json'
         },
     })
-    event.currentTarget.remove()
+    event.currentTarget.parentElement.remove()
 }
 
 function addPokemon(event){
-    fetch(POKEMONS_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            "trainer_id": `${event.target.parentElement.id}`
+    if (event.target.nextSibling.childNodes.length  6) {
+        fetch(POKEMONS_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "trainer_id": `${event.target.parentElement.id}`
+            })
         })
-    })
-    .then(response => response.json())
-    .then(newPokemon => {
-        let myEvent = event.target.parentElement
-        
-        parent = document.querySelector('')
-        renderPokemon(newPokemon, myEvent)
-    })
+        .then(response => response.json())
+        .then(newPokemon => {
+            let myEvent = event.target.parentElement
+            
+            renderPokemon(newPokemon, myEvent)
+        })
+    }
+   
 
 
 }
